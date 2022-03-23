@@ -1,0 +1,40 @@
+{
+  "items": [
+    {
+      "name": "First",
+      "src": "https://wallbox.ru/resize/1024x768/wallpapers/main2/201726/nebo-gory-otrazenie.jpg",
+      "id": 1
+    },
+    {
+      "name": "Second",
+      "src": "https://wallpapertag.com/wallpaper/middle/c/f/3/9358-download-desktop-background-1920x1080.jpg",
+      "id": 2
+    },
+    {
+      "name": "Third",
+      "src": "https://w-dog.ru/wallpapers/9/15/458745441613494/vajoming-ssha-grand-teton-nacionalnyj-park-snejk-river-grand-titon-nacionalnyj-park-zakat-oblaka-vecher-gory-pole-cvety-zelen-les-derevya-sosny.jpg",
+      "id": 3
+    },
+    {
+      "name": "Fourth",
+      "src": "https://w-dog.ru/wallpapers/0/62/349856802100204/zolotoj-bereg-okean-avstraliya-oteli-more-gorod.jpg",
+      "id": 4
+    },
+    {
+      "name": "Fifth",
+      "src": "https://get.wallhere.com/photo/trees-landscape-forest-lake-water-rock-nature-reflection-sky-snowy-peak-mist-bridge-river-national-park-fjord-Alps-mount-scenery-arch-bridge-cloud-tree-mountain-plant-watercourse-reservoir-2560x1440-px-mountain-range-devil's-bridge-789280.jpg",
+      "id": 5
+    },
+    {
+      "name": "Sixth",
+      "src": "https://avatars.mds.yandex.net/i?id=37e90f94ca5638d6797d4a880447f380-5538868-images-thumbs&n=13",
+      "id": 6
+    },
+    {
+      "name": "Seventh",
+      "src": "https://avatars.mds.yandex.net/i?id=458195d7566bd7d883fe9f0474eed87a-5896834-images-thumbs&n=13",
+      "id": 7
+    }
+  ],
+  "adds": []
+}

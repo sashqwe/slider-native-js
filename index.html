@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- <link rel="stylesheet" href="css/main.css" /> -->
+    <link rel="stylesheet" href="css/style.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="container">
+      <button id="show">Show slider</button>
+      <form action="#">
+        <input placeholder="Enter img-name" id="name" type="text" name="name" />
+        <input placeholder="Enter img-link" id="src" type="text" name="src" />
+        <button type="submit" id="add">Add slider item</button>
+      </form>
+      <div class="slider__counter">
+        <p class="counter"></p>
+      </div>
+      <div class="slider__wrapper">
+        <button id="prev">prev</button>
+        <div class="slider-inner">
+          <div class="slider"></div>
+        </div>
+        <button id="next">next</button>
+      </div>
+    </div>
+  </body>
+  <script>
+    const showButton = document.querySelector("#show");
+    const addButton = document.querySelector("#add");
+    const prevButton = document.querySelector("#prev");
+    const nextButton = document.querySelector("#next");
+    const sliderInner = document.querySelector(".slider-inner");
+    const slideWidth = parseInt(window.getComputedStyle(sliderInner).width);
+    const slider = document.querySelector(".slider");
+    const sliderWrapper = document.querySelector(".slider__wrapper");
+    const slidesCounter = document.querySelector(".counter");
+
+    let counter = 1;
+    let offset = 0;
+
+    const setSliderParams = function () {
+      const slides = document.querySelectorAll(".slider__item");
+      slider.style.width = `${100 * slides.length}%`;
+
+      const sliderNav = document.createElement("div");
+      sliderNav.classList.add("slider__nav");
+      sliderWrapper.append(sliderNav);
+      let dots = [];
+
+      for (let i = 1; i <= slides.length; i++) {
+        const dot = document.createElement("div");
+        dot.classList.add("slider__dot");
+        dot.setAttribute("data-slide", i);
+        sliderNav.append(dot);
+        dots.push(dot);
+      }
+      const checkDots = function () {
+        dots.forEach((dot) => {
+          if (dot.getAttribute("data-slide") == counter) {
+            dot.style.width = "30px";
+            dot.style.backgroundColor = "#4f4e4e";
+            console.log(dot);
+          } else {
+            dot.style.width = "14px";
+            dot.style.backgroundColor = "transparent";
+          }
+        });
+      };
+      dots.forEach((dot) => {
+        dot.addEventListener("click", (e) => {
+          const currentSlide = +dot.getAttribute("data-slide");
+          counter = currentSlide;
+          dots.forEach((dot) => {
+            dot.style.width = "14px";
+            dot.style.backgroundColor = "transparent";
+          });
+          addSlidesCounter();
+          if (dot.getAttribute("data-slide") == counter) {
+            dot.style.width = "30px";
+            dot.style.backgroundColor = "#4f4e4e";
+          } else {
+          }
+
+          slider.style.transform = `translateX(-${
+            slideWidth * (currentSlide - 1)
+          }px)`;
+        });
+      });
+
+      prevButton.addEventListener("click", (e) => {
+        e.preventDefault();
+        if (offset != 0 && counter != 1) {
+          offset -= slideWidth;
+          counter = counter - 1;
+        } else {
+          offset = slideWidth * (slides.length - 1);
+          counter = slides.length;
+        }
+        slider.style.transform = `translateX(-${offset}px)`;
+        addSlidesCounter();
+        checkDots();
+      });
+      nextButton.addEventListener("click", (e) => {
+        e.preventDefault();
+        if (
+          offset < slideWidth * (slides.length - 1) &&
+          counter < slides.length
+        ) {
+          offset += slideWidth;
+          counter = counter + 1;
+        } else {
+          offset = 0;
+          counter = 1;
+        }
+        slider.style.transform = `translateX(-${offset}px)`;
+        addSlidesCounter();
+        checkDots();
+      });
+    };
+
+    const buttonAction = function (button, action) {
+      button.addEventListener("click", (e) => {
+        e.preventDefault();
+        action();
+      });
+    };
+
+    const addSliderItem = function () {
+      let name = document.querySelector("#name");
+      let src = document.querySelector("#src");
+      fetch("http://localhost:3000/items", {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({
+          name: name.value,
+          src: src.value,
+        }),
+      });
+      name.value = "";
+      src.value = "";
+    };
+
+    const formSliderItems = async function () {
+      await fetch("http://localhost:3000/items", {
+        method: "GET",
+      })
+        .then((data) => data.json())
+        .then((items) =>
+          items.forEach((item) => {
+            const div = document.createElement("div");
+            div.classList.add("slider__item");
+            div.innerHTML = `
+              <img src="${item.src}" alt=""  />
+
+
+              `;
+            slider.append(div);
+          })
+        );
+      // setCurrentSlide();
+      setSliderParams();
+      addSlidesCounter();
+    };
+    const addSlidesCounter = function () {
+      const slides = document.querySelectorAll(".slider__item");
+
+      slidesCounter.textContent = `${counter}/${slides.length}`;
+    };
+
+    // const checkCounter = function () {
+    //   const slides = document.querySelectorAll(".slider__item");
+
+    //   if (counter < 1) {
+    //     counter = slides.length;
+    //   }
+    //   if (counter > slides.length) {
+    //     counter = 1;
+    //   }
+    // };
+
+    buttonAction(addButton, addSliderItem);
+    buttonAction(showButton, formSliderItems);
+  </script>
+</html>
